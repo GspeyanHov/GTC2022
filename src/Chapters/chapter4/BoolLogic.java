@@ -1,4 +1,4 @@
-package Chapters.chapters4;
+package Chapters.chapter4;
 
 public class BoolLogic {
 

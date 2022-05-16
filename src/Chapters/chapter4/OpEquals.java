@@ -1,23 +1,21 @@
-package Chapters.chapters4;
+package Chapters.chapter4;
 
-public class IncDec {
+public class OpEquals {
 
     public static void main(String[] args) {
 
         int a = 1;
         int b = 2;
-        int c;
-        int d;
+        int c = 3;
 
-        c = ++b;
-        d = a++;
-        c++;
+        a += 5;
+        b *= 4;
+        c += a * b;
+        c %= 6;
 
         System.out.println("a = " + a);
         System.out.println("b = " + b);
         System.out.println("c = " + c);
-        System.out.println("d = " + d);
-
 
     }
 }
