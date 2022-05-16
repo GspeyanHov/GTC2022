@@ -1,4 +1,4 @@
-package Chapters.Chapter2;
+package Chapters.Chapter3;
 
 public class CharDemo2 {
 
