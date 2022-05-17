@@ -15,26 +15,32 @@ public class ArrayUtil {
         System.out.println();
         System.out.println(".......................................");
 
-        // 2. մասիվի ամենամեծ թիվը
+        // 2. մասիվի ամենամեծ թիվը, և թվի ինդեքսը
 
         int max = arr[0];
+        int index = 0;
         for (int i = 0; i < arr.length; i++) {
             if (max < arr[i]) {
                 max = arr[i];
+                index = i;
             }
         }
         System.out.println("Maximum value in an array: " + max);
+        System.out.println("Maximum value's index in an array: " + index);
         System.out.println("..........................................");
 
-        // 3. մասիվի ամենափոքրը թիվը
+        // 3. մասիվի ամենափոքրը թիվը, և թվի ինդեքսը
 
         int min = arr[0];
+        int point = 0;
         for (int i = 0; i < arr.length; i++) {
             if (min > arr[i]) {
                 arr[i] = min;
+                point = i;
             }
         }
         System.out.println("Minimum value in an array: " + min);
+        System.out.println("Minimum value's index in an array: " + point);
         System.out.println(".........................................");
 
         // 4. մասիվի բոլոր զույգ էլեմենտները
