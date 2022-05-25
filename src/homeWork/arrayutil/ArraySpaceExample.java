@@ -34,7 +34,7 @@ public class ArraySpaceExample {
             }
         }
         for (char c : result) {
-            System.out.print(c + "|");
+            System.out.print(c);
         }
     }
 }
