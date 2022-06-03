@@ -24,10 +24,10 @@ public class ArraySpaceExample {
             }
         }
         total = spaceArray.length - (start + end);
-        char[]result = new char[total];
+        char[] result = new char[total];
         int x = 0;
         for (int i = start; i < spaceArray.length; i++) {
-            while (x < result.length){
+            while (x < result.length) {
                 result[x] = spaceArray[i];
                 x++;
                 break;
