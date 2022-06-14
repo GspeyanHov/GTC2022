@@ -1,7 +1,6 @@
 package chapters.chapter7;
 
 public class Outer1 {
-
     int outerX = 100;
     
     void test(){
