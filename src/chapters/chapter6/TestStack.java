@@ -3,8 +3,8 @@ package chapters.chapter6;
 public class TestStack {
 
     public static void main(String[] args) {
-        Stack myStack1 = new Stack(10);
-        Stack myStack2 = new Stack(10);
+        Stack myStack1 = new Stack(20);
+        Stack myStack2 = new Stack(20);
 
         for (int i = 0; i < 5; i++) {
             myStack1.push(i);
@@ -20,7 +20,7 @@ public class TestStack {
         for (int i = 0; i < 8; i++) {
             System.out.println(myStack2.pop());
         }
-        myStack1.checkStack();
+
 
     }
 }
