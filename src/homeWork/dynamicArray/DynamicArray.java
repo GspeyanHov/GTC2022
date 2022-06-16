@@ -14,12 +14,8 @@ public class DynamicArray {
 
     //1.Գրել մեթոդ isEmpty անունով, որը կվերադարձնի true եթե մեր dynamicArray-ի մեջ չունենանք ոչ մի էլեմենտ. Եթե ունենք՝ false
 
-    public void isEmpty() {
-        if (this.size == 0) {
-            System.out.println(true);
-        } else {
-            System.out.println(false);
-        }
+    public boolean isEmpty() {
+        return this.size == 0;
     }
     //2.Գրել մեթոդ getByIndex անունով, որը կընդունի ինդեքս, և կվերադարձնի այդ ինդեքսի տակ ընկած թիվը, եթե չկա թող վերադարձնի 0;
 
@@ -34,7 +30,6 @@ public class DynamicArray {
     public int getFirstIndexByValue(int value) {
         for (int i = 0; i < size; i++) {
             if (value == this.array[i]) {
-                this.getByIndex(i);
                 return i;
             }
         }

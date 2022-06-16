@@ -5,8 +5,7 @@ public class DynamicArrayDemo {
     public static void main(String[] args) {
         DynamicArray da = new DynamicArray();
 
-        da.isEmpty();
-        da.printArray();
+        System.out.println(da.isEmpty());
 
         da.add(7);
         da.add(15);
@@ -33,6 +32,7 @@ public class DynamicArrayDemo {
 
         da.delete(2);
         da.printArray();
+
     }
 
 }
