@@ -1,6 +1,6 @@
-package homeWork.students;
+package homeWork.students.storage;
 
-import java.util.Scanner;
+import homeWork.students.model.Student;
 
 public class StudentList {
 
@@ -15,17 +15,11 @@ public class StudentList {
         }
     }
 
-    public static void printNewLesson(int index, String newLesson) {
-        System.out.println(array[index].getLesson());
-       array[index].setLesson(newLesson);
-    }
-
-    public static void getByIndex(int index) {
+    public Student getByIndex(int index) {
         if (index >= size || index < 0) {
-            System.out.println("Error array index! ");
-            return;
+            return null;
         }
-        System.out.println(array[index]);
+        return array[index];
     }
 
     private void extend() {
@@ -64,13 +58,5 @@ public class StudentList {
 
     public static int getSize() {
         return size;
-    }
-
-    public void set(int index, Student newLesson) {
-        if (index >= size || index < 0) {
-            System.out.println("Error array index! ");
-            return;
-        }
-        array[index] = newLesson;
     }
 }
