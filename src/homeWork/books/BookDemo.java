@@ -16,7 +16,7 @@ public class BookDemo implements Commands {
     private static final AuthorStorage authorStorage = new AuthorStorage();
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AuthorNotFoundException {
 
         Author Voynich = new Author("Ann", "Voynich", "voy@hotmail.com", "female");
         Author Tolstoy = new Author("Ivan", "Tolstoy", "tol@hotmail.com", "male");
@@ -104,18 +104,24 @@ public class BookDemo implements Commands {
     }
 
     private static void addAuthors() {
-        System.out.println("please input author's name ");
-        String authorName = scanner.nextLine();
-        System.out.println("please input author's surname ");
-        String surName = scanner.nextLine();
-        System.out.println("please input author's email ");
-        String email = scanner.nextLine();
-        System.out.println("please input author's gender ");
-        String gender = scanner.nextLine();
+        try{
+            System.out.println("please input author's name ");
+            String authorName = scanner.nextLine();
+            System.out.println("please input author's surname ");
+            String surName = scanner.nextLine();
+            System.out.println("please input author's email ");
+            String email = scanner.nextLine();
+            System.out.println("please input author's gender ");
+            String gender = scanner.nextLine();
 
-        Author author = new Author(authorName, surName, email, gender);
-        authorStorage.add(author);
-        System.out.println("Author created! ");
+            Author author = new Author(authorName, surName, email, gender);
+            authorStorage.add(author);
+            System.out.println("Author created! ");
+        }catch (AuthorNotFoundException e){
+            System.out.println("Wrong author!. please choose correct author! ");
+            addAuthors();
+        }
+
 
     }
 

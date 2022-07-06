@@ -59,9 +59,10 @@ public class AuthorStorage {
         array = authors;
     }
 
-    public void add(Author author) {
+    public void add(Author author) throws AuthorNotFoundException {
         if (array.length == size) {
             extend();
+            throw new AuthorNotFoundException("Author with that " + author + "doesn't exist ");
         }
         array[size++] = author;
     }
