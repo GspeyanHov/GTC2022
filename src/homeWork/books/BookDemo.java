@@ -158,10 +158,11 @@ public class BookDemo implements Commands {
             bookStorage.printArray();
             System.out.println("please input book's author's name ");
             String name = scanner.nextLine();
+            System.out.println("please input book's author's surname ");
             String surname = scanner.nextLine();
-            authorStorage.printBookByAuthorName(name, surname);
+            bookStorage.printBookByAuthorName(name, surname);
         } catch (NumberFormatException e) {
-            System.out.println("Wrong author name!. please try again ");
+            System.out.println("Wrong author name or surname!. please try again ");
             printBookByAuthorName();
         }
     }

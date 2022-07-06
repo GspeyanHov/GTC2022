@@ -8,18 +8,6 @@ public class AuthorStorage {
     private static Author[] array = new Author[10];
     private static int size = 0;
 
-    public void printBookByAuthorName(String name, String surname) {
-        boolean exists = false;
-        for (int i = 0; i < size; i++) {
-            if (array[i].getName().equals(name) && array[i].getName().equals(surname)){
-                System.out.println(i + ". " + array[i]);
-                exists = true;
-            }
-        }
-        if(!exists){
-            System.out.println("No such author with that name!. Please try again! ");
-        }
-    }
     public void printAuthorByAuthorGender(String gender){
         boolean exists = false;
         for (int i = 0; i < size; i++) {

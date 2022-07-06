@@ -1,11 +1,25 @@
 package homeWork.books.storage;
 
+import homeWork.books.model.Author;
 import homeWork.books.model.Book;
 
 public class BookStorage {
 
     private static Book[] array = new Book[10];
     private static int size = 0;
+
+    public void printBookByAuthorName(String name, String surName){
+        boolean exists = false;
+        for (int i = 0; i < size; i++) {
+            if (array[i].getAuthor().getName().equals(name) && array[i].getAuthor().getSurname().equals(surName)){
+                System.out.println(i + ". " + array[i]);
+                exists = true;
+            }
+        }
+        if(!exists){
+            System.out.println("No such author with that name or surname!. Please try again! ");
+        }
+    }
 
     public void printBookByGenre(String genre) {
         boolean exists = false;
