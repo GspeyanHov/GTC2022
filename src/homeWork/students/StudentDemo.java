@@ -1,6 +1,7 @@
 package homeWork.students;
 
 import homeWork.students.commands.Commands;
+import homeWork.students.exception.LessonNotFoundException;
 import homeWork.students.model.Lesson;
 import homeWork.students.model.Student;
 import homeWork.students.storage.LessonList;
@@ -11,16 +12,15 @@ import java.util.Scanner;
 public class StudentDemo implements Commands {
 
 
-
     private static Scanner scanner = new Scanner(System.in);
     private static StudentList studentList = new StudentList();
     private static LessonList lessonList = new LessonList();
 
     public static void main(String[] args) {
 
-        Lesson java = new Lesson("java","Gasparyan",5,35);
-        Lesson php = new Lesson("php","Poghosyan",4,30);
-        Lesson kotlin = new Lesson("kotlin","Sargsyan",3,25);
+        Lesson java = new Lesson("java", "Gasparyan", 5, 35);
+        Lesson php = new Lesson("php", "Poghosyan", 4, 30);
+        Lesson kotlin = new Lesson("kotlin", "Sargsyan", 3, 25);
         lessonList.add(java);
         lessonList.add(php);
         lessonList.add(kotlin);
@@ -30,9 +30,14 @@ public class StudentDemo implements Commands {
 
         boolean run = true;
         while (run) {
-             Commands.printCommands();
+            Commands.printCommands();
+            int command;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                command = -1;
+            }
 
-            int command = Integer.parseInt(scanner.nextLine());
             switch (command) {
                 case EXIT:
                     run = false;
@@ -78,7 +83,7 @@ public class StudentDemo implements Commands {
         System.out.println("please input lesson price ");
         double price = Double.parseDouble(scanner.nextLine());
 
-        Lesson lesson = new Lesson("name","teacherName",duration,price);
+        Lesson lesson = new Lesson("name", "teacherName", duration, price);
         lessonList.add(lesson);
         System.out.println("lesson created! ");
 
@@ -92,14 +97,17 @@ public class StudentDemo implements Commands {
         if (student == null) {
             System.out.println("Wrong index!!! ");
         } else {
-            if(LessonList.getSize() != 0) {
+            if (LessonList.getSize() != 0) {
                 LessonList.printArray();
                 System.out.println("Please choose lesson index! ");
-                int lessonIndex = Integer.parseInt(scanner.nextLine());
-                Lesson lesson = lessonList.getLessonByIndex(lessonIndex);
-                if (lesson != null) {
-                   student.setLesson(lesson);
+                try {
+                    int lessonIndex = Integer.parseInt(scanner.nextLine());
+                    Lesson lesson = lessonList.getLessonByIndex(lessonIndex);
+                    student.setLesson(lesson);
                     System.out.println("lesson changed! ");
+                } catch (LessonNotFoundException | NumberFormatException e) {
+                    System.out.println("Please choose correct index or number! ");
+                    changeStudentLessonName();
                 }
             }
         }
@@ -119,15 +127,14 @@ public class StudentDemo implements Commands {
     }
 
     private static void addStudent() {
-        if(LessonList.getSize() != 0){
+        if (LessonList.getSize() != 0) {
             LessonList.printArray();
             System.out.println("Please choose lesson index! ");
-            int lessonIndex = Integer.parseInt(scanner.nextLine());
-            Lesson lesson = lessonList.getLessonByIndex(lessonIndex);
-            if(lesson == null){
-                System.out.println("Wrong index!. Please choose correct index ");
-                addStudent();
-            }else{
+
+            Lesson lesson = null;
+            try {
+                int lessonIndex = Integer.parseInt(scanner.nextLine());
+                lesson = lessonList.getLessonByIndex(lessonIndex);
                 System.out.println("Please input student's name ");
                 String name = scanner.nextLine();
                 System.out.println("please input student's surname ");
@@ -142,11 +149,10 @@ public class StudentDemo implements Commands {
                 Student student = new Student(name, surname, phoneNumber, age, city, lesson);
                 studentList.add(student);
                 System.out.println("Student created ");
-
+            } catch (LessonNotFoundException | NumberFormatException e) {
+                System.out.println("Please choose correct index or number! ");
+                addStudent();
             }
         }
-
-
-
     }
 }

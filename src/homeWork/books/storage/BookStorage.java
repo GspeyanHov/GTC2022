@@ -7,47 +7,32 @@ public class BookStorage {
     private static Book[] array = new Book[10];
     private static int size = 0;
 
-    public static Book printBookByAuthorName(String authorName) {
-        Book b  = null;
-        for (int i = 0; i < size; i++) {
-            if (array[i].getAuthor().equals(authorName)) {
-                System.out.println(i + ". " + array[i]);
-                b = array[i];
-            }
-        }
-        return b;
-    }
-
-    public static Book printBookByGenre(String genre) {
-        Book b = null;
+    public void printBookByGenre(String genre) {
+        boolean exists = false;
         for (int i = 0; i < size; i++) {
             if (array[i].getGenre().equals(genre)) {
                 System.out.println(i + ". " + array[i]);
-                b = array[i];
+                exists = true;
             }
         }
-        return b;
+        if(!exists){
+            System.out.println("No such book in that price range");
+        }
     }
 
-    public static Book priceRange(double from, double to) {
-        Book b = null;
-        for (int i = 0; i < size ; i++) {
-            if (array[i].getPrice() >= from && array[i].getPrice() <= to) {
+    public void printBooksByPriceRange(double minPrice, double maxPrice) {
+        boolean exists = false;
+        for (int i = 0; i < size; i++) {
+            if (array[i].getPrice() >= minPrice && array[i].getPrice() < maxPrice) {
                 System.out.println(i + ". " + array[i]);
-                b = array[i];
+                exists = true;
             }
         }
-        return b;
+        if(!exists){
+            System.out.println("No such book in that price range");
+        }
     }
 
-
-    //    public Student getByIndex(int index) {
-//        if (index >= size || index < 0) {
-//            return null;
-//        }
-//        return array[index];
-//    }
-//
     private void extend() {
         Book[] book = new Book[array.length + 10];
         for (int i = 0; i < array.length; i++) {
@@ -63,27 +48,13 @@ public class BookStorage {
         array[size++] = book;
     }
 
-    public static void printArray() {
+    public void printArray() {
         for (int i = 0; i < size; i++) {
             System.out.println(i + ". " + array[i]);
         }
     }
 
-//
-//    public void delete(int index) {
-//        if (index >= size || index < 0) {
-//            System.out.println("Error array index! ");
-//            return;
-//        }
-//        Book book = array[index];
-//        for (int i = index; i < size - 1; i++) {
-//            array[i] = array[i + 1];
-//        }
-//        size--;
-//
-//    }
-//
-//    public static int getSize() {
-//        return size;
-//    }
+    public int getSize() {
+        return size;
+    }
 }
