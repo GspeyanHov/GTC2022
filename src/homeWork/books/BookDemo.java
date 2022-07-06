@@ -18,15 +18,15 @@ public class BookDemo implements Commands {
 
     public static void main(String[] args) throws AuthorNotFoundException {
 
-        Author Voynich = new Author("Ann", "Voynich", "voy@hotmail.com", "female");
-        Author Tolstoy = new Author("Ivan", "Tolstoy", "tol@hotmail.com", "male");
-        Author Pushkin = new Author("Alex", "Pushkin", "push@hotmail.com", "male");
-        authorStorage.add(Voynich);
-        authorStorage.add(Tolstoy);
-        authorStorage.add(Pushkin);
-        bookStorage.add(new Book("Black and White", Voynich, 13.2, 3, "historical"));
-        bookStorage.add(new Book("Straps", Tolstoy, 10.5, 3, "detective"));
-        bookStorage.add(new Book("Anegin", Pushkin, 13.2, 3, "dramatic"));
+        Author AnnVoynich = new Author("Ann", "Voynich", "voy@hotmail.com", "female");
+        Author LevTolstoy = new Author("Lev", "Tolstoy", "tol@hotmail.com", "male");
+        Author AlexPushkin = new Author("Alex", "Pushkin", "push@hotmail.com", "male");
+        authorStorage.add(AnnVoynich);
+        authorStorage.add(LevTolstoy);
+        authorStorage.add(AlexPushkin);
+        bookStorage.add(new Book("Black and White", AnnVoynich, 13.2, 3, "historical"));
+        bookStorage.add(new Book("Straps", LevTolstoy, 10.5, 3, "detective"));
+        bookStorage.add(new Book("Anegin", AlexPushkin, 13.2, 3, "dramatic"));
 
 
         boolean run = true;
