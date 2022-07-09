@@ -1,6 +1,5 @@
 package homeWork.books.storage;
 
-import homeWork.books.model.Author;
 import homeWork.books.model.Book;
 
 public class BookStorage {

@@ -2,13 +2,14 @@ package homeWork.books.storage;
 
 import homeWork.books.exception.AuthorNotFoundException;
 import homeWork.books.model.Author;
+import homeWork.books.model.Gender;
 
 public class AuthorStorage {
 
     private static Author[] array = new Author[10];
     private static int size = 0;
 
-    public void printAuthorByAuthorGender(String gender){
+    public void printAuthorByAuthorGender(Gender gender){
         boolean exists = false;
         for (int i = 0; i < size; i++) {
             if(array[i].getGender().equals(gender)){

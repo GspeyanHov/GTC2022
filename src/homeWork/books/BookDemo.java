@@ -1,15 +1,16 @@
 package homeWork.books;
 
-import homeWork.books.commands.Commands;
+import homeWork.books.commands.Command;
 import homeWork.books.exception.AuthorNotFoundException;
 import homeWork.books.model.Author;
 import homeWork.books.model.Book;
+import homeWork.books.model.Gender;
 import homeWork.books.storage.AuthorStorage;
 import homeWork.books.storage.BookStorage;
 
 import java.util.Scanner;
 
-public class BookDemo implements Commands {
+public class BookDemo implements Command {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final BookStorage bookStorage = new BookStorage();
@@ -18,9 +19,9 @@ public class BookDemo implements Commands {
 
     public static void main(String[] args) throws AuthorNotFoundException {
 
-        Author AnnVoynich = new Author("Ann", "Voynich", "voy@hotmail.com", "female");
-        Author LevTolstoy = new Author("Lev", "Tolstoy", "tol@hotmail.com", "male");
-        Author AlexPushkin = new Author("Alex", "Pushkin", "push@hotmail.com", "male");
+        Author AnnVoynich = new Author("Ann", "Voynich", "voy@hotmail.com", Gender.FEMALE);
+        Author LevTolstoy = new Author("Lev", "Tolstoy", "tol@hotmail.com", Gender.MALE);
+        Author AlexPushkin = new Author("Alex", "Pushkin", "push@hotmail.com", Gender.MALE);
         authorStorage.add(AnnVoynich);
         authorStorage.add(LevTolstoy);
         authorStorage.add(AlexPushkin);
@@ -30,8 +31,15 @@ public class BookDemo implements Commands {
 
 
         boolean run = true;
+        try{
+            userLogin("admin","123456");
+        }catch (NumberFormatException e){
+            System.out.println("Wrong username or password!. please try again ");
+            run = false;
+        }
         while (run) {
-            Commands.commands();
+
+            Command.commands();
             int command;
             try {
                 command = Integer.parseInt(scanner.nextLine());
@@ -77,6 +85,20 @@ public class BookDemo implements Commands {
         }
     }
 
+    private static void userLogin(String username, String password) {
+        username = "admin";
+        password = "123456";
+        System.out.println("Please input username for login");
+        String uName = scanner.nextLine();
+        System.out.println("Please input Password for login");
+        String uPass = scanner.nextLine();
+        if ((uName.equals(username) && password.equals(uPass))) {
+            System.out.println("access permitted ");
+        }else{
+            throw new NumberFormatException("Wrong username or password!. please try again ");
+        }
+    }
+
     private static void printAuthorByAuthorEmail() {
         try {
             authorStorage.printArray();
@@ -95,7 +117,7 @@ public class BookDemo implements Commands {
             authorStorage.printArray();
             System.out.println("Please input author's gender ");
             String gender = scanner.nextLine();
-            authorStorage.printAuthorByAuthorGender(gender);
+            authorStorage.printAuthorByAuthorGender(Gender.valueOf(gender.toUpperCase()));
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid author's gender! ");
             printAuthorByAuthorGender();
@@ -104,7 +126,7 @@ public class BookDemo implements Commands {
     }
 
     private static void addAuthors() {
-        try{
+        try {
             System.out.println("please input author's name ");
             String authorName = scanner.nextLine();
             System.out.println("please input author's surname ");
@@ -114,10 +136,10 @@ public class BookDemo implements Commands {
             System.out.println("please input author's gender ");
             String gender = scanner.nextLine();
 
-            Author author = new Author(authorName, surName, email, gender);
+            Author author = new Author(authorName, surName, email, Gender.valueOf(gender.toUpperCase()));
             authorStorage.add(author);
             System.out.println("Author created! ");
-        }catch (AuthorNotFoundException e){
+        } catch (AuthorNotFoundException e) {
             System.out.println("Wrong author!. please choose correct author! ");
             addAuthors();
         }
@@ -188,10 +210,8 @@ public class BookDemo implements Commands {
                 String countStr = scanner.nextLine();
                 System.out.println("please input book's genre ");
                 String genre = scanner.nextLine();
-
                 double price = Integer.parseInt(priceStr);
                 int count = Integer.parseInt(countStr);
-
                 Book book = new Book(title, author, price, count, genre);
                 bookStorage.add(book);
                 System.out.println("book created ");
@@ -202,3 +222,5 @@ public class BookDemo implements Commands {
         }
     }
 }
+
+

@@ -1,6 +1,6 @@
 package homeWork.books.commands;
 
-public interface Commands {
+public interface Command {
 
     int EXIT = 0;
     int ADD_BOOKS = 1;
