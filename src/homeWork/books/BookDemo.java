@@ -19,7 +19,8 @@ public class BookDemo implements Command {
     private static final Scanner scanner = new Scanner(System.in);
     private static final BookStorage bookStorage = new BookStorage();
     private static final AuthorStorage authorStorage = new AuthorStorage();
-    private static UserStorage userStorage = new UserStorage();
+    private static final UserStorage userStorage = new UserStorage();
+    private static User currentUser = null;
 
     public static void main(String[] args) throws AuthorNotFoundException, UserNotFoundException {
         dataInit();
@@ -58,6 +59,7 @@ public class BookDemo implements Command {
         if (user == null) {
             System.out.println("User with " + emailPassword[0] + " does not exist! ");
         } else if (user.getPassword().equals(emailPassword[1])) {
+            currentUser = user;
             if (user.getUserType() == UserType.ADMIN) {
                 loginAdmin();
             } else if (user.getUserType() == UserType.USER) {
@@ -69,6 +71,7 @@ public class BookDemo implements Command {
     }
 
     private static void loginUser() {
+        System.out.println("Welcome " + currentUser.getName());
         boolean run = true;
         while (run) {
 
@@ -83,6 +86,9 @@ public class BookDemo implements Command {
             switch (command) {
                 case EXIT:
                     run = false;
+                    break;
+                case ADD_BOOKS:
+                    addBooks();
                     break;
                 case PRINT_ALL_BOOKS:
                     printAllBooks();
@@ -135,6 +141,7 @@ public class BookDemo implements Command {
     }
 
     private static void loginAdmin() {
+        System.out.println("Welcome " + currentUser.getName());
         boolean run = true;
         while (run) {
 
@@ -185,17 +192,17 @@ public class BookDemo implements Command {
     }
 
     private static void dataInit() throws UserNotFoundException, AuthorNotFoundException {
-        User user = new User("Martiros", "Martirosyan", "Marti@inbox.com", "admin", UserType.ADMIN);
+        User admin = new User("Martiros", "Martirosyan", "Marti@inbox.com", "admin", UserType.ADMIN);
         Author AnnVoynich = new Author("Ann", "Voynich", "voy@hotmail.com", Gender.FEMALE);
         Author LevTolstoy = new Author("Lev", "Tolstoy", "tol@hotmail.com", Gender.MALE);
         Author AlexPushkin = new Author("Alex", "Pushkin", "push@hotmail.com", Gender.MALE);
-        userStorage.add(user);
+        userStorage.add(admin);
         authorStorage.add(AnnVoynich);
         authorStorage.add(LevTolstoy);
         authorStorage.add(AlexPushkin);
-        bookStorage.add(new Book("Black and White", AnnVoynich, 13.2, 3, "historical"));
-        bookStorage.add(new Book("Straps", LevTolstoy, 10.5, 3, "detective"));
-        bookStorage.add(new Book("Anegin", AlexPushkin, 13.2, 3, "dramatic"));
+        bookStorage.add(new Book("Black and White", AnnVoynich, 13.2, 3, "historical", admin));
+        bookStorage.add(new Book("Straps", LevTolstoy, 10.5, 3, "detective", admin));
+        bookStorage.add(new Book("Anegin", AlexPushkin, 13.2, 3, "dramatic", admin));
     }
 
     private static void printAuthorByAuthorEmail() {
@@ -311,7 +318,7 @@ public class BookDemo implements Command {
                 String genre = scanner.nextLine();
                 double price = Integer.parseInt(priceStr);
                 int count = Integer.parseInt(countStr);
-                Book book = new Book(title, author, price, count, genre);
+                Book book = new Book(title, author, price, count, genre, currentUser);
                 bookStorage.add(book);
                 System.out.println("book created ");
             } catch (AuthorNotFoundException | NumberFormatException e) {

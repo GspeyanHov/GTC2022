@@ -8,9 +8,10 @@ public class Student {
     private int age;
     private String city;
     private Lesson lesson;
+    private User registeredUser;
 
     public Student(String name, String surName, String phoneNumber,
-                   int age, String city, Lesson lesson) {
+                   int age, String city, Lesson lesson, User registeredUser) {
 
         this.name = name;
         this.surName = surName;
@@ -18,6 +19,7 @@ public class Student {
         this.age = age;
         this.city = city;
         this.lesson = lesson;
+        this.registeredUser = registeredUser;
 
     }
 
@@ -68,6 +70,14 @@ public class Student {
         return lesson;
     }
 
+    public User getRegisteredUser() {
+        return registeredUser;
+    }
+
+    public void setRegisteredUser(User registeredUser) {
+        this.registeredUser = registeredUser;
+    }
+
     public void setLesson(Lesson lesson) {
         this.lesson = lesson;
     }
@@ -82,6 +92,7 @@ public class Student {
                 ", surName='" + surName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", lesson ='" + lesson.getName() +
+                ", registeredUser ='" + registeredUser +
                 ", age=" + age +
                 ", city='" + city + '\'' +
                 '}';

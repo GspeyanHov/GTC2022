@@ -38,6 +38,7 @@ public interface Command {
 
     static void UserCommands() {
         System.out.println("Please input " + LOGOUT + " for exit ");
+        System.out.println("Please input " + ADD_BOOKS + " for add books ");
         System.out.println("Please input " + PRINT_ALL_BOOKS + " for print all books ");
         System.out.println("Please input " + PRINT_BOOKS_BY_AUTHOR_NAME + " for print book by author name ");
         System.out.println("Please input " + PRINT_AUTHOR_BY_AUTHOR_GENDER + " for print author by author gender ");

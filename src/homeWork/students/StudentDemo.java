@@ -19,6 +19,7 @@ public class StudentDemo implements Commands {
     private static StudentList studentList = new StudentList();
     private static LessonList lessonList = new LessonList();
     private static UserList userList = new UserList();
+    private static User currentUser = null;
 
     public static void main(String[] args) {
 
@@ -58,6 +59,7 @@ public class StudentDemo implements Commands {
         if (user == null) {
             System.out.println("User with " + emailPassword[0] + " does not exist! ");
         } else if (user.getPassword().equals(emailPassword[1])) {
+            currentUser = user;
             if (user.getUserType() == UserType.ADMIN) {
                 loginAdmin();
             } else if (user.getUserType() == UserType.USER) {
@@ -69,6 +71,7 @@ public class StudentDemo implements Commands {
     }
 
     private static void loginUser() {
+        System.out.println("Welcome " + currentUser.getName());
         boolean run = true;
         while (run) {
             Commands.printUserCommands();
@@ -131,6 +134,7 @@ public class StudentDemo implements Commands {
     }
 
     private static void loginAdmin() {
+        System.out.println("Welcome " + currentUser.getName());
         boolean run = true;
         while (run) {
             Commands.printAdminCommands();
@@ -177,17 +181,17 @@ public class StudentDemo implements Commands {
     }
 
     private static void initData() {
-        User user = new User("Kirakos", "Kirakosyan", "kirakos@mail.ru", "admin", UserType.ADMIN);
+        User admin = new User("Kirakos", "Kirakosyan", "kirakos@mail.ru", "admin", UserType.ADMIN);
         Lesson java = new Lesson("java", "Gasparyan", 5, 35);
         Lesson php = new Lesson("php", "Poghosyan", 4, 30);
         Lesson kotlin = new Lesson("kotlin", "Sargsyan", 3, 25);
-        userList.add(user);
+        userList.add(admin);
         lessonList.add(java);
         lessonList.add(php);
         lessonList.add(kotlin);
-        studentList.add(new Student("Poghos", "Poghosyan", "098154578", 18, "Gyumri", java));
-        studentList.add(new Student("Surik", "Surikyan", "098154579", 24, "Paris", php));
-        studentList.add(new Student("Levon", "Levonyan", "098154558", 22, "London", kotlin));
+        studentList.add(new Student("Poghos", "Poghosyan", "098154578", 18, "Gyumri", java, admin));
+        studentList.add(new Student("Surik", "Surikyan", "098154579", 24, "Paris", php, admin));
+        studentList.add(new Student("Levon", "Levonyan", "098154558", 22, "London", kotlin, admin));
     }
 
     private static void addLesson() {
@@ -263,7 +267,7 @@ public class StudentDemo implements Commands {
                 System.out.println("please input student's city ");
                 String city = scanner.nextLine();
 
-                Student student = new Student(name, surname, phoneNumber, age, city, lesson);
+                Student student = new Student(name, surname, phoneNumber, age, city, lesson, currentUser);
                 studentList.add(student);
                 System.out.println("Student created ");
             } catch (LessonNotFoundException | NumberFormatException e) {
