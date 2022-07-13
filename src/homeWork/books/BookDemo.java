@@ -51,25 +51,6 @@ public class BookDemo implements Command {
         }
     }
 
-    private static void login() {
-        System.out.println("please input email,password for login ");
-        String emailPasswordStr = scanner.nextLine();
-        String[] emailPassword = emailPasswordStr.split(",");
-        User user = userStorage.getUserByUserEmail(emailPassword[0]);
-        if (user == null) {
-            System.out.println("User with " + emailPassword[0] + " does not exist! ");
-        } else if (user.getPassword().equals(emailPassword[1])) {
-            currentUser = user;
-            if (user.getUserType() == UserType.ADMIN) {
-                loginAdmin();
-            } else if (user.getUserType() == UserType.USER) {
-                loginUser();
-            }
-        } else {
-            System.out.println("Wrong password! ");
-        }
-    }
-
     private static void loginUser() {
         System.out.println("Welcome " + currentUser.getName());
         boolean run = true;
@@ -114,28 +95,6 @@ public class BookDemo implements Command {
                 default:
                     System.out.println("Invalid command! ");
                     break;
-            }
-        }
-    }
-
-    private static void register() throws UserNotFoundException {
-        System.out.println("Please input name,surname,email,password for register! ");
-        String userDataStr = scanner.nextLine();
-        String[] userData = userDataStr.split(",");
-        if (userData.length < 4) {
-            System.out.println("please input correct data! ");
-        } else {
-            if (userStorage.getUserByUserEmail(userData[0]) == null) {
-                User user = new User();
-                user.setName(userData[0]);
-                user.setSurname(userData[1]);
-                user.setEmail(userData[2]);
-                user.setPassword(userData[3]);
-                user.setUserType(UserType.USER);
-                userStorage.add(user);
-                System.out.println("user created! ");
-            } else {
-                System.out.println("User with " + userData[0] + "already exist's! ");
             }
         }
     }
@@ -187,6 +146,47 @@ public class BookDemo implements Command {
                 default:
                     System.out.println("Invalid command! ");
                     break;
+            }
+        }
+    }
+
+    private static void login() {
+        System.out.println("please input email,password for login ");
+        String emailPasswordStr = scanner.nextLine();
+        String[] emailPassword = emailPasswordStr.split(",");
+        User user = userStorage.getUserByUserEmail(emailPassword[0]);
+        if (user == null) {
+            System.out.println("User with " + emailPassword[0] + " does not exist! ");
+        } else if (user.getPassword().equals(emailPassword[1])) {
+            currentUser = user;
+            if (user.getUserType() == UserType.ADMIN) {
+                loginAdmin();
+            } else if (user.getUserType() == UserType.USER) {
+                loginUser();
+            }
+        } else {
+            System.out.println("Wrong password! ");
+        }
+    }
+
+    private static void register() throws UserNotFoundException {
+        System.out.println("Please input name,surname,email,password for register! ");
+        String userDataStr = scanner.nextLine();
+        String[] userData = userDataStr.split(",");
+        if (userData.length < 4) {
+            System.out.println("please input correct data! ");
+        } else {
+            if (userStorage.getUserByUserEmail(userData[0]) == null) {
+                User user = new User();
+                user.setName(userData[0]);
+                user.setSurname(userData[1]);
+                user.setEmail(userData[2]);
+                user.setPassword(userData[3]);
+                user.setUserType(UserType.USER);
+                userStorage.add(user);
+                System.out.println("user created! ");
+            } else {
+                System.out.println("User with " + userData[0] + "already exist's! ");
             }
         }
     }
