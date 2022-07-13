@@ -4,8 +4,11 @@ import homeWork.students.commands.Commands;
 import homeWork.students.exception.LessonNotFoundException;
 import homeWork.students.model.Lesson;
 import homeWork.students.model.Student;
+import homeWork.students.model.User;
+import homeWork.students.model.UserType;
 import homeWork.students.storage.LessonList;
 import homeWork.students.storage.StudentList;
+import homeWork.students.storage.UserList;
 
 import java.util.Scanner;
 
@@ -15,22 +18,122 @@ public class StudentDemo implements Commands {
     private static Scanner scanner = new Scanner(System.in);
     private static StudentList studentList = new StudentList();
     private static LessonList lessonList = new LessonList();
+    private static UserList userList = new UserList();
 
     public static void main(String[] args) {
 
-        Lesson java = new Lesson("java", "Gasparyan", 5, 35);
-        Lesson php = new Lesson("php", "Poghosyan", 4, 30);
-        Lesson kotlin = new Lesson("kotlin", "Sargsyan", 3, 25);
-        lessonList.add(java);
-        lessonList.add(php);
-        lessonList.add(kotlin);
-        studentList.add(new Student("Poghos", "Poghosyan", "098154578", 18, "Gyumri", java));
-        studentList.add(new Student("Surik", "Surikyan", "098154579", 24, "Paris", php));
-        studentList.add(new Student("Levon", "Levonyan", "098154558", 22, "London", kotlin));
+        initData();
 
         boolean run = true;
         while (run) {
-            Commands.printCommands();
+            Commands.printLoginCommands();
+            int command;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                command = -1;
+            }
+            switch (command) {
+                case EXIT:
+                    run = false;
+                    break;
+                case LOGIN:
+                    login();
+                    break;
+                case REGISTER:
+                    register();
+                    break;
+                default:
+                    System.out.println("Invalid command ");
+                    break;
+            }
+        }
+    }
+
+    private static void login() {
+        System.out.println("Please input email, password ");
+        String emailPasswordStr = scanner.nextLine();
+        String[] emailPassword = emailPasswordStr.split(",");
+        User user = userList.getUserByEmail(emailPassword[0]);
+        if (user == null) {
+            System.out.println("User with " + emailPassword[0] + " does not exist! ");
+        } else if (user.getPassword().equals(emailPassword[1])) {
+            if (user.getUserType() == UserType.ADMIN) {
+                loginAdmin();
+            } else if (user.getUserType() == UserType.USER) {
+                loginUser();
+            }
+        } else {
+            System.out.println("Wrong password! ");
+        }
+    }
+
+    private static void loginUser() {
+        boolean run = true;
+        while (run) {
+            Commands.printUserCommands();
+            int command;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                command = -1;
+            }
+
+            switch (command) {
+                case EXIT:
+                    run = false;
+                    break;
+                case ADD_STUDENT:
+                    addStudent();
+                    break;
+                case PRINT_ALL_STUDENTS:
+                    StudentList.printArray();
+                    break;
+                case DELETE_STUDENT_BY_INDEX:
+                    deleteByIndex();
+                    break;
+                case PRINT_STUDENT_BY_LESSON:
+                    printStudentByLessonName();
+                    break;
+                case COUNT:
+                    System.out.println("Student's count: " + StudentList.getSize());
+                    break;
+                case PRINT_ALL_LESSONS:
+                    LessonList.printArray();
+                    break;
+                default:
+                    System.out.println("Invalid command ");
+                    break;
+            }
+        }
+    }
+
+    private static void register() {
+        System.out.println("Please input name, surname, email, password");
+        String userDataStr = scanner.nextLine();
+        String[] userData = userDataStr.split(",");
+        if (userData.length < 4) {
+            System.out.println("please input correct data! ");
+        } else {
+            if (userList.getUserByEmail(userData[0]) == null) {
+                User user = new User();
+                user.setName(userData[0]);
+                user.setSurname(userData[1]);
+                user.setEmail(userData[2]);
+                user.setPassword(userData[3]);
+                user.setUserType(UserType.USER);
+                userList.add(user);
+                System.out.println("User created ");
+            } else {
+                System.out.println("user with " + userData[0] + " already exist's! ");
+            }
+        }
+    }
+
+    private static void loginAdmin() {
+        boolean run = true;
+        while (run) {
+            Commands.printAdminCommands();
             int command;
             try {
                 command = Integer.parseInt(scanner.nextLine());
@@ -71,6 +174,20 @@ public class StudentDemo implements Commands {
                     break;
             }
         }
+    }
+
+    private static void initData() {
+        User user = new User("Kirakos", "Kirakosyan", "kirakos@mail.ru", "admin", UserType.ADMIN);
+        Lesson java = new Lesson("java", "Gasparyan", 5, 35);
+        Lesson php = new Lesson("php", "Poghosyan", 4, 30);
+        Lesson kotlin = new Lesson("kotlin", "Sargsyan", 3, 25);
+        userList.add(user);
+        lessonList.add(java);
+        lessonList.add(php);
+        lessonList.add(kotlin);
+        studentList.add(new Student("Poghos", "Poghosyan", "098154578", 18, "Gyumri", java));
+        studentList.add(new Student("Surik", "Surikyan", "098154579", 24, "Paris", php));
+        studentList.add(new Student("Levon", "Levonyan", "098154558", 22, "London", kotlin));
     }
 
     private static void addLesson() {

@@ -2,11 +2,15 @@ package homeWork.books;
 
 import homeWork.books.commands.Command;
 import homeWork.books.exception.AuthorNotFoundException;
+import homeWork.books.exception.UserNotFoundException;
 import homeWork.books.model.Author;
 import homeWork.books.model.Book;
 import homeWork.books.model.Gender;
+import homeWork.books.model.User;
 import homeWork.books.storage.AuthorStorage;
 import homeWork.books.storage.BookStorage;
+import homeWork.books.storage.UserStorage;
+import homeWork.students.model.UserType;
 
 import java.util.Scanner;
 
@@ -15,31 +19,126 @@ public class BookDemo implements Command {
     private static final Scanner scanner = new Scanner(System.in);
     private static final BookStorage bookStorage = new BookStorage();
     private static final AuthorStorage authorStorage = new AuthorStorage();
+    private static UserStorage userStorage = new UserStorage();
 
-
-    public static void main(String[] args) throws AuthorNotFoundException {
-
-        Author AnnVoynich = new Author("Ann", "Voynich", "voy@hotmail.com", Gender.FEMALE);
-        Author LevTolstoy = new Author("Lev", "Tolstoy", "tol@hotmail.com", Gender.MALE);
-        Author AlexPushkin = new Author("Alex", "Pushkin", "push@hotmail.com", Gender.MALE);
-        authorStorage.add(AnnVoynich);
-        authorStorage.add(LevTolstoy);
-        authorStorage.add(AlexPushkin);
-        bookStorage.add(new Book("Black and White", AnnVoynich, 13.2, 3, "historical"));
-        bookStorage.add(new Book("Straps", LevTolstoy, 10.5, 3, "detective"));
-        bookStorage.add(new Book("Anegin", AlexPushkin, 13.2, 3, "dramatic"));
-
+    public static void main(String[] args) throws AuthorNotFoundException, UserNotFoundException {
+        dataInit();
 
         boolean run = true;
-        try{
-            userLogin("admin","123456");
-        }catch (NumberFormatException e){
-            System.out.println("Wrong username or password!. please try again ");
-            run = false;
+        while (run) {
+            Command.loginCommands();
+            int command;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                command = -1;
+            }
+            switch (command) {
+                case EXIT:
+                    run = false;
+                    break;
+                case LOGIN:
+                    login();
+                    break;
+                case REGISTER:
+                    register();
+                    break;
+                default:
+                    System.out.println("Invalid command! ");
+                    break;
+            }
         }
+    }
+
+    private static void login() {
+        System.out.println("please input email,password for login ");
+        String emailPasswordStr = scanner.nextLine();
+        String[] emailPassword = emailPasswordStr.split(",");
+        User user = userStorage.getUserByUserEmail(emailPassword[0]);
+        if (user == null) {
+            System.out.println("User with " + emailPassword[0] + " does not exist! ");
+        } else if (user.getPassword().equals(emailPassword[1])) {
+            if (user.getUserType() == UserType.ADMIN) {
+                loginAdmin();
+            } else if (user.getUserType() == UserType.USER) {
+                loginUser();
+            }
+        } else {
+            System.out.println("Wrong password! ");
+        }
+    }
+
+    private static void loginUser() {
+        boolean run = true;
         while (run) {
 
-            Command.commands();
+            Command.UserCommands();
+            int command;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                command = -1;
+            }
+
+            switch (command) {
+                case EXIT:
+                    run = false;
+                    break;
+                case PRINT_ALL_BOOKS:
+                    printAllBooks();
+                    break;
+                case PRINT_BOOKS_BY_AUTHOR_NAME:
+                    printBookByAuthorName();
+                    break;
+                case PRINT_AUTHOR_BY_AUTHOR_GENDER:
+                    printAuthorByAuthorGender();
+                    break;
+                case PRINT_AUTHOR_BY_AUTHOR_EMAIL:
+                    printAuthorByAuthorEmail();
+                    break;
+                case PRINT_BOOKS_BY_GENRE:
+                    printBooksByGenre();
+                    break;
+                case PRINT_BOOKS_BY_PRICE_RANGE:
+                    printBooksByPriceRange();
+                    break;
+                case PRINT_ALL_AUTHORS:
+                    authorStorage.printArray();
+                    break;
+                default:
+                    System.out.println("Invalid command! ");
+                    break;
+            }
+        }
+    }
+
+    private static void register() throws UserNotFoundException {
+        System.out.println("Please input name,surname,email,password for register! ");
+        String userDataStr = scanner.nextLine();
+        String[] userData = userDataStr.split(",");
+        if (userData.length < 4) {
+            System.out.println("please input correct data! ");
+        } else {
+            if (userStorage.getUserByUserEmail(userData[0]) == null) {
+                User user = new User();
+                user.setName(userData[0]);
+                user.setSurname(userData[1]);
+                user.setEmail(userData[2]);
+                user.setPassword(userData[3]);
+                user.setUserType(UserType.USER);
+                userStorage.add(user);
+                System.out.println("user created! ");
+            } else {
+                System.out.println("User with " + userData[0] + "already exist's! ");
+            }
+        }
+    }
+
+    private static void loginAdmin() {
+        boolean run = true;
+        while (run) {
+
+            Command.adminCommands();
             int command;
             try {
                 command = Integer.parseInt(scanner.nextLine());
@@ -85,18 +184,18 @@ public class BookDemo implements Command {
         }
     }
 
-    private static void userLogin(String username, String password) {
-        username = "admin";
-        password = "123456";
-        System.out.println("Please input username for login");
-        String uName = scanner.nextLine();
-        System.out.println("Please input Password for login");
-        String uPass = scanner.nextLine();
-        if ((uName.equals(username) && password.equals(uPass))) {
-            System.out.println("access permitted ");
-        }else{
-            throw new NumberFormatException("Wrong username or password!. please try again ");
-        }
+    private static void dataInit() throws UserNotFoundException, AuthorNotFoundException {
+        User user = new User("Martiros", "Martirosyan", "Marti@inbox.com", "admin", UserType.ADMIN);
+        Author AnnVoynich = new Author("Ann", "Voynich", "voy@hotmail.com", Gender.FEMALE);
+        Author LevTolstoy = new Author("Lev", "Tolstoy", "tol@hotmail.com", Gender.MALE);
+        Author AlexPushkin = new Author("Alex", "Pushkin", "push@hotmail.com", Gender.MALE);
+        userStorage.add(user);
+        authorStorage.add(AnnVoynich);
+        authorStorage.add(LevTolstoy);
+        authorStorage.add(AlexPushkin);
+        bookStorage.add(new Book("Black and White", AnnVoynich, 13.2, 3, "historical"));
+        bookStorage.add(new Book("Straps", LevTolstoy, 10.5, 3, "detective"));
+        bookStorage.add(new Book("Anegin", AlexPushkin, 13.2, 3, "dramatic"));
     }
 
     private static void printAuthorByAuthorEmail() {
