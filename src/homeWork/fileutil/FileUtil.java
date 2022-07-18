@@ -112,7 +112,7 @@ public class FileUtil {
         String name = scanner.nextLine();
         System.out.println("Please input text content you want to write ");
         String content = scanner.nextLine();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file.getName()));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(pathName));
         writer.write(content);
         writer.flush();
 
