@@ -10,7 +10,10 @@ import homeWork.students.storage.LessonList;
 import homeWork.students.storage.StudentList;
 import homeWork.students.storage.UserList;
 
+import java.util.Date;
 import java.util.Scanner;
+
+import static homeWork.students.util.DateUtil.stringToDate;
 
 public class StudentDemo implements Commands {
 
@@ -182,16 +185,16 @@ public class StudentDemo implements Commands {
 
     private static void initData() {
         User admin = new User("Kirakos", "Kirakosyan", "kirakos@mail.ru", "admin", UserType.ADMIN);
-        Lesson java = new Lesson("java", "Gasparyan", 5, 35);
-        Lesson php = new Lesson("php", "Poghosyan", 4, 30);
-        Lesson kotlin = new Lesson("kotlin", "Sargsyan", 3, 25);
+        Lesson java = new Lesson("java", "Gasparyan", 5, 35, stringToDate("02/06/2021"));
+        Lesson php = new Lesson("php", "Poghosyan", 4, 30, stringToDate("05/07/2021"));
+        Lesson kotlin = new Lesson("kotlin", "Sargsyan", 3, 25, stringToDate("15/08/2021"));
         userList.add(admin);
         lessonList.add(java);
         lessonList.add(php);
         lessonList.add(kotlin);
-        studentList.add(new Student("Poghos", "Poghosyan", "098154578", 18, "Gyumri", java, admin));
-        studentList.add(new Student("Surik", "Surikyan", "098154579", 24, "Paris", php, admin));
-        studentList.add(new Student("Levon", "Levonyan", "098154558", 22, "London", kotlin, admin));
+        studentList.add(new Student("Poghos", "Poghosyan", "098154578", 18, "Gyumri", java, admin, new Date()));
+        studentList.add(new Student("Surik", "Surikyan", "098154579", 24, "Paris", php, admin, new Date()));
+        studentList.add(new Student("Levon", "Levonyan", "098154558", 22, "London", kotlin, admin, new Date()));
     }
 
     private static void addLesson() {
@@ -203,8 +206,10 @@ public class StudentDemo implements Commands {
         int duration = Integer.parseInt(scanner.nextLine());
         System.out.println("please input lesson price ");
         double price = Double.parseDouble(scanner.nextLine());
+        System.out.println("please input lesson's start date (dd/MM/yyyy) ");
+        String strDate = scanner.nextLine();
 
-        Lesson lesson = new Lesson("name", "teacherName", duration, price);
+        Lesson lesson = new Lesson("name", "teacherName", duration, price, stringToDate(strDate));
         lessonList.add(lesson);
         System.out.println("lesson created! ");
 
@@ -267,7 +272,7 @@ public class StudentDemo implements Commands {
                 System.out.println("please input student's city ");
                 String city = scanner.nextLine();
 
-                Student student = new Student(name, surname, phoneNumber, age, city, lesson, currentUser);
+                Student student = new Student(name, surname, phoneNumber, age, city, lesson, currentUser, new Date());
                 studentList.add(student);
                 System.out.println("Student created ");
             } catch (LessonNotFoundException | NumberFormatException e) {

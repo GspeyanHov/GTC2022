@@ -2,6 +2,10 @@ package homeWork.books.model;
 
 import homeWork.books.model.Author;
 
+import java.util.Date;
+
+import static homeWork.students.util.DateUtil.dateToString;
+
 public class Book {
 
     private String title;
@@ -10,14 +14,17 @@ public class Book {
     private int count;
     private String genre;
     private User registeredUser;
+    private Date addedDate;
 
-    public Book(String title, Author author, double price, int count, String genre, User registeredUser) {
+    public Book(String title, Author author, double price, int count,
+                String genre, User registeredUser, Date addedDate) {
         this.title = title;
         this.author = author;
         this.price = price;
         this.count = count;
         this.genre = genre;
         this.registeredUser = registeredUser;
+        this.addedDate = addedDate;
     }
 
     public Book() {
@@ -71,6 +78,14 @@ public class Book {
         this.registeredUser = registeredUser;
     }
 
+    public Date getRegisteredDate() {
+        return addedDate;
+    }
+
+    public void setRegisteredDate(Date registeredDate) {
+        this.addedDate = registeredDate;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -80,7 +95,7 @@ public class Book {
                 ", count=" + count +
                 ", genre='" + genre + '\'' +
                 ", registeredUser='" + registeredUser + '\'' +
-
+                ", registeredDate='" + dateToString(addedDate) + '\'' +
                 '}';
     }
 }

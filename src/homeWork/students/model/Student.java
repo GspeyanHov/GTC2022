@@ -1,5 +1,12 @@
 package homeWork.students.model;
 
+import homeWork.students.util.DateUtil;
+
+import java.io.DataOutputStream;
+import java.util.Date;
+
+import static homeWork.students.util.DateUtil.dateToString;
+
 public class Student {
 
     private String name;
@@ -9,9 +16,10 @@ public class Student {
     private String city;
     private Lesson lesson;
     private User registeredUser;
+    private Date registeredDate;
 
     public Student(String name, String surName, String phoneNumber,
-                   int age, String city, Lesson lesson, User registeredUser) {
+                   int age, String city, Lesson lesson, User registeredUser, Date registeredDate) {
 
         this.name = name;
         this.surName = surName;
@@ -20,6 +28,7 @@ public class Student {
         this.city = city;
         this.lesson = lesson;
         this.registeredUser = registeredUser;
+        this.registeredDate = registeredDate;
 
     }
 
@@ -81,8 +90,17 @@ public class Student {
     public void setLesson(Lesson lesson) {
         this.lesson = lesson;
     }
+
     public int getByIndex(int index) {
         return index;
+    }
+
+    public Date getRegisteredDate() {
+        return registeredDate;
+    }
+
+    public void setRegisteredDate(Date registeredDate) {
+        this.registeredDate = registeredDate;
     }
 
     @Override
@@ -93,6 +111,7 @@ public class Student {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", lesson ='" + lesson.getName() +
                 ", registeredUser ='" + registeredUser +
+                ", registeredDate ='" + dateToString(registeredDate) +
                 ", age=" + age +
                 ", city='" + city + '\'' +
                 '}';

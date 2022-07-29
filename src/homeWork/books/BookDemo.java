@@ -12,7 +12,11 @@ import homeWork.books.storage.BookStorage;
 import homeWork.books.storage.UserStorage;
 import homeWork.students.model.UserType;
 
+import java.util.Date;
 import java.util.Scanner;
+
+import static homeWork.students.util.DateUtil.dateToString;
+import static homeWork.students.util.DateUtil.stringToDate;
 
 public class BookDemo implements Command {
 
@@ -200,9 +204,9 @@ public class BookDemo implements Command {
         authorStorage.add(AnnVoynich);
         authorStorage.add(LevTolstoy);
         authorStorage.add(AlexPushkin);
-        bookStorage.add(new Book("Black and White", AnnVoynich, 13.2, 3, "historical", admin));
-        bookStorage.add(new Book("Straps", LevTolstoy, 10.5, 3, "detective", admin));
-        bookStorage.add(new Book("Anegin", AlexPushkin, 13.2, 3, "dramatic", admin));
+        bookStorage.add(new Book("Black and White", AnnVoynich, 13.2, 3, "historical", admin, stringToDate("03/06/2022")));
+        bookStorage.add(new Book("Straps", LevTolstoy, 10.5, 3, "detective", admin, stringToDate("02/05/2022")));
+        bookStorage.add(new Book("Anegin", AlexPushkin, 13.2, 3, "dramatic", admin, stringToDate("24/03/2022")));
     }
 
     private static void printAuthorByAuthorEmail() {
@@ -318,7 +322,7 @@ public class BookDemo implements Command {
                 String genre = scanner.nextLine();
                 double price = Integer.parseInt(priceStr);
                 int count = Integer.parseInt(countStr);
-                Book book = new Book(title, author, price, count, genre, currentUser);
+                Book book = new Book(title, author, price, count, genre, currentUser, new Date());
                 bookStorage.add(book);
                 System.out.println("book created ");
             } catch (AuthorNotFoundException | NumberFormatException e) {
