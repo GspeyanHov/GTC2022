@@ -10,7 +10,6 @@ import java.util.Stack;
  * Queue - FIFO
  */
 public class Queue<T> {
-
     private Stack<T> stack1;
     private Stack<T> stack2;
 
@@ -18,45 +17,33 @@ public class Queue<T> {
         stack1 = new Stack<>();
         stack2 = new Stack<>();
     }
-
     /**
      * Ավելացնել էլեմենտ
      */
     public void add(T t) {
-        while (!stack1.isEmpty()) {
-            stack2.push(stack1.pop());
-        }
-        stack1.push(t);
-        while (!stack2.isEmpty()) {
-            stack1.push(stack2.pop());
-        }
-        System.out.println(stack1);
+        System.out.print(stack1.push(t) + " ");
     }
-
     /**
      * Վերցնել առաջին էլեմենտը՝ ջնջելով այն
      */
     public T poll() {
-        if (!stack1.isEmpty()) {
-            return stack1.remove(0);
+        while (!stack1.isEmpty()) {
+            stack2.push(stack1.pop());
         }
-        return null;
+        return stack2.pop();
     }
-
     /**
      * Վերցնել առաջին էլեմենտը՝ առանց այն ջնջելու
      */
     public T peek() {
-        if (!stack1.isEmpty()) {
-            return stack1.elementAt(0);
+        while (!stack1.isEmpty()) {
+            stack2.push(stack1.pop());
         }
-        return null;
+        return stack2.peek();
     }
-
     public int size() {
-        return stack1.size();
+        return stack2.size() + stack1.size();
     }
-
     public static void main(String[] args) {
         Queue<String> stringQueue = new Queue<>();
         stringQueue.add("Poxos");
@@ -64,6 +51,8 @@ public class Queue<T> {
         stringQueue.add("Krakos");
         stringQueue.add("Martiros");
 
+
+        System.out.println();
         System.out.println(stringQueue.poll());
         System.out.println(stringQueue.size());
         System.out.println(stringQueue.peek());
