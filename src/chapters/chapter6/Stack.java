@@ -16,6 +16,7 @@ public class Stack {
         } else {
             stCk[++tos] = item;
         }
+        System.out.println(tos);
     }
 
     public int pop() {
@@ -27,7 +28,7 @@ public class Stack {
         }
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return tos == -1;
     }
 }
